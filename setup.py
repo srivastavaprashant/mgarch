@@ -2,13 +2,13 @@ from distutils.core import setup
 setup(
   name = 'mgarch',         
   packages = ['mgarch'],   
-  version = '0.1.2',      
+  version = '0.1.3',      
   license='afl-3.0',    
   description = 'DCC-GARCH(1,1)',
   author = 'Prashant Srivastava',
   author_email = 'srivastava.prashant898@gmail.com',
   url = 'https://github.com/srivastavaprashant/mgarch',
-  download_url = 'https://github.com/srivastavaprashant/mgarch/archive/0.1.2.tar.gz',
+  download_url = 'https://github.com/srivastavaprashant/mgarch/archive/0.1.3.tar.gz',
   keywords = ['volatility', 'multivariate', 'garch'],
   install_requires=[
           'numpy',
