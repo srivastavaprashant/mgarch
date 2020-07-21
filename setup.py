@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'mgarch',         
   packages = ['mgarch'],   
-  version = '0.1.1',      
+  version = '0.1.2',      
   license='afl-3.0',    
   description = 'DCC-GARCH(1,1)',
   author = 'Prashant Srivastava',
