@@ -5,14 +5,15 @@ setup(
 
   name = 'mgarch',         
   packages = ['mgarch'],   
-  version = '0.1.4',      
+  version = '0.1.5',      
   license='MIT',    
   description = 'DCC-GARCH(1,1)',
   long_description = long_description,
+  long_description_content_type='text/markdown',
   author = 'Prashant Srivastava',
   author_email = 'srivastava.prashant898@gmail.com',
   url = 'https://github.com/srivastavaprashant/mgarch',
-  download_url = 'https://github.com/srivastavaprashant/mgarch/archive/0.1.4.tar.gz',
+  download_url = 'https://github.com/srivastavaprashant/mgarch/archive/0.1.5.tar.gz',
   keywords = ['volatility', 'multivariate', 'garch'],
   install_requires=[
           'numpy',
