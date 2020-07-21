@@ -1,14 +1,18 @@
-from distutils.core import setup
+from setuptools import setup
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 setup(
+
   name = 'mgarch',         
   packages = ['mgarch'],   
-  version = '0.1.3',      
+  version = '0.1.4',      
   license='MIT',    
   description = 'DCC-GARCH(1,1)',
+  long_description = long_description,
   author = 'Prashant Srivastava',
   author_email = 'srivastava.prashant898@gmail.com',
   url = 'https://github.com/srivastavaprashant/mgarch',
-  download_url = 'https://github.com/srivastavaprashant/mgarch/archive/0.1.3.tar.gz',
+  download_url = 'https://github.com/srivastavaprashant/mgarch/archive/0.1.4.tar.gz',
   keywords = ['volatility', 'multivariate', 'garch'],
   install_requires=[
           'numpy',
@@ -24,4 +28,4 @@ setup(
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
   ],
-)
+)\
