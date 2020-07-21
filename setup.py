@@ -8,7 +8,7 @@ setup(
   author = 'Prashant Srivastava',
   author_email = 'srivastava.prashant898@gmail.com',
   url = 'https://github.com/srivastavaprashant/mgarch',
-  download_url = 'https://github.com/srivastavaprashant/mgarch/archive/0.1.1.tar.gz',
+  download_url = 'https://github.com/srivastavaprashant/mgarch/archive/0.1.2.tar.gz',
   keywords = ['volatility', 'multivariate', 'garch'],
   install_requires=[
           'numpy',
