@@ -1,0 +1,113 @@
+from scipy.optimize import minimize
+import numpy as np
+
+
+class mgarch:
+    
+    def __init__(self, returns):
+        
+        self.rt = np.matrix(returns)
+        
+        self.T = self.rt.shape[0]
+        self.N = self.rt.shape[1]
+        self.mean = self.rt.mean(axis = 0)
+        self.rt = self.rt - self.mean
+        
+    def garch_fit(self, returns):
+        res = minimize( self.garch_loglike, (0.01, 0.01, 0.94), args = returns,
+              bounds = ((1e-6, 1), (1e-6, 1), (1e-6, 1)))
+        return res.x
+
+    def garch_loglike(self, params, returns):
+        T = len(returns)
+        var_t = self.garch_var(params, returns)
+        LogL = np.sum(-np.log(2*np.pi*var_t)) - np.sum( (returns.A1**2)/(2*var_t))
+        return -LogL
+
+    def garch_var(self, params, returns):
+        T = len(returns)
+        omega = params[0]
+        alpha = params[1]
+        beta = params[2]
+        var_t = np.zeros(T)     
+        for i in range(T):
+            if i==0:
+                var_t[i] = returns[i]**2
+            else: 
+                var_t[i] = omega + alpha*(returns[i-1]**2) + beta*var_t[i-1]
+        return var_t        
+        
+    def mgarch_loglike(self, params, D_t):
+        # No of assets
+        a = params[0]
+        b = params[1]
+
+        
+        #D_t = np.matrix([sig_a, sig_m]).reshape(T,2)
+        Q_bar = np.cov(self.rt.reshape(self.N, self.T))
+
+        Q_t = np.zeros((self.T,self.N,self.N))
+        R_t = np.zeros((self.T,self.N,self.N))
+        H_t = np.zeros((self.T,self.N,self.N))
+        
+        Q_t[0] = np.matmul(self.rt[0].T/2, self.rt[0]/2)
+
+        loglike = 0
+        for i in range(1,self.T):
+            dts = np.diag(D_t[i])
+            dtinv = np.linalg.inv(dts)
+            et = dtinv*self.rt[i].T
+            Q_t[i] = (1-a-b)*Q_bar + a*(et*et.T) + b*Q_t[i-1]
+            qts = np.linalg.inv(np.sqrt(np.diag(np.diag(Q_t[i]))))
+
+            R_t[i] = np.matmul(qts, np.matmul(Q_t[i], qts))
+
+
+            H_t[i] = np.matmul(dts, np.matmul(R_t[i], dts))   
+
+            loglike = loglike + self.N*np.log(2*np.pi) + \
+                      2*np.log(D_t[i].sum()) + \
+                      np.log(np.linalg.det(R_t[i])) + \
+                      np.matmul(self.rt[i], (np.matmul( np.linalg.inv(H_t[i]), self.rt[i].T)))
+
+
+        return loglike
+    
+    def predict(self, ndays = 1):
+        #D_t = np.matrix([sig_a, sig_m]).reshape(T,2)
+        Q_bar = np.cov(self.rt.reshape(self.N, self.T))
+
+        Q_t = np.zeros((self.T,self.N,self.N))
+        R_t = np.zeros((self.T,self.N,self.N))
+        H_t = np.zeros((self.T,self.N,self.N))
+        
+        Q_t[0] = np.matmul(self.rt[0].T/2, self.rt[0]/2)
+
+        loglike = 0
+        for i in range(1,self.T):
+            dts = np.diag(self.D_t[i])
+            dtinv = np.linalg.inv(dts)
+            et = dtinv*self.rt[i].T
+            Q_t[i] = (1-self.a-self.b)*Q_bar + self.a*(et*et.T) + self.b*Q_t[i-1]
+            qts = np.linalg.inv(np.sqrt(np.diag(np.diag(Q_t[i]))))
+
+            R_t[i] = np.matmul(qts, np.matmul(Q_t[i], qts))
+
+
+            H_t[i] = np.matmul(dts, np.matmul(R_t[i], dts))   
+        return H_t[self.T - 1]*np.sqrt(ndays)
+    
+    def fit(self):
+        D_t = np.zeros((self.T, self.N))
+        for i in range(self.N):
+            params = self.garch_fit(self.rt[:,i])
+            D_t[:,i] = np.sqrt(self.garch_var(params, self.rt[:,i]))
+        self.D_t = D_t
+        res = minimize(self.mgarch_loglike, (0.01, 0.94), args = D_t,
+            bounds = ((1e-6, 1), (1e-6, 1)), 
+            #options = {'maxiter':10000000, 'disp':True},
+            )
+        
+        self.a = res.x[0]
+        self.b = res.x[1]
+        print(res)
