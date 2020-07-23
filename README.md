@@ -6,7 +6,7 @@ DCC-GARCH(1,1) for multivariate normal and student t distribution.
 
 
 ## Use case:
-For Multivariate normal Distribution
+For Multivariate Normal Distribution
 ```python
 rt = (t, n) numpy matrix with t days of observation and n number of assets
 import mgarch
