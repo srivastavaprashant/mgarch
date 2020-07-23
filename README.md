@@ -2,7 +2,7 @@
 
 mgarch is a python package for predicting volatility of daily returns in financial markets. 
 
-DCC-GARCH(1,1) for multivariate normal distribution.
+DCC-GARCH(1,1) for multivariate normal and student t distribution.
 
 
 ## Use case:
