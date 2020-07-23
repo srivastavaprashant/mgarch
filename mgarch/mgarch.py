@@ -104,7 +104,7 @@ class mgarch:
     
     
     def predict(self, ndays = 1):
-        if 'rt' in dir(self):
+        if 'a' in dir(self):
             Q_bar = np.cov(self.rt.reshape(self.N, self.T))
 
             Q_t = np.zeros((self.T,self.N,self.N))
@@ -140,6 +140,9 @@ class mgarch:
         
         self.T = self.rt.shape[0]
         self.N = self.rt.shape[1]
+        
+        if self.N == 1 or self.T == 1:
+            return 'Required: 2d-array with columns > 2' 
         self.mean = self.rt.mean(axis = 0)
         self.rt = self.rt - self.mean
         
