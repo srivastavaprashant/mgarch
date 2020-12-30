@@ -8,7 +8,7 @@ DCC-GARCH(1,1) for multivariate normal and student t distribution.
 ## Use case:
 For Multivariate Normal Distribution
 ```python
-rt = (t, n) numpy matrix with t days of observation and n number of assets
+# shape(rt) = (t, n) numpy matrix with t days of observation and n number of assets
 import mgarch
 vol = mgarch.mgarch()
 vol.fit(rt)
@@ -18,7 +18,7 @@ cov_nextday = vol.predict(ndays)
 
 For Multivariate Student-t Distribution
 ```python
-rt = (t, n) numpy matrix with t days of observation and n number of assets
+# shape(rt) = (t, n) numpy matrix with t days of observation and n number of assets
 import mgarch
 dist = 't'
 vol = mgarch.mgarch(dist)
