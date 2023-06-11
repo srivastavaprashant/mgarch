@@ -39,7 +39,7 @@ class mgarch:
         # No of assets
         a = params[0]
         b = params[1]
-        Q_bar = np.cov(self.rt.reshape(self.N, self.T))
+        Q_bar = np.cov(self.rt.T)
 
         Q_t = np.zeros((self.T,self.N,self.N))
         R_t = np.zeros((self.T,self.N,self.N))
@@ -74,7 +74,7 @@ class mgarch:
         a = params[0]
         b = params[1]
         dof = params[2]
-        Q_bar = np.cov(self.rt.reshape(self.N, self.T))
+        Q_bar = np.cov(self.rt.T)
 
         Q_t = np.zeros((self.T,self.N,self.N))
         R_t = np.zeros((self.T,self.N,self.N))
@@ -105,7 +105,7 @@ class mgarch:
     
     def predict(self, ndays = 1):
         if 'a' in dir(self):
-            Q_bar = np.cov(self.rt.reshape(self.N, self.T))
+            Q_bar = np.cov(self.rt.T)
 
             Q_t = np.zeros((self.T,self.N,self.N))
             R_t = np.zeros((self.T,self.N,self.N))
